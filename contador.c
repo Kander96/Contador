@@ -262,3 +262,61 @@ int contador(int *red, int M, int N, int *cluster){
 	}
 	return h;
 }
+void contador_clusters(int *red,int N){
+	
+	int a,b,c,d,k,h,e,l;
+	int *etiqueta,*clusters;
+	
+	etiqueta=(int *)malloc(N*sizeof(int));
+	clusters=(int *)malloc(2*N*sizeof(int));
+	
+	for(int j=0;j<N/2;j++){
+		*(etiqueta+j)=j+2;
+		*(etiqueta+N/2+j)=0;
+	}
+	for(int j=0;j<N;j++){
+		*(clusters+j)=j+1;
+		*(clusters+N+j)=0;
+	}
+		
+	for(int i=0;i<N;i++){
+		c=*(red+i);
+		if(c!=0){
+			for(int j=0;j<N/2;j++){
+				d=*(etiqueta+j);
+				if(c==d){
+					k=*(etiqueta+N/2+j);
+					k=k+1;
+					*(etiqueta+N/2+j)=k;
+				}
+			}
+		}
+	}
+	
+	for(int i=0;i<2;i++){
+		for(int j=0;j<N/2;j++){
+			printf("%i\t",*(etiqueta+i*N/2+j));
+		}
+		printf("\n");
+	}
+	
+	for(int i=0;i<N;i++){
+		h=*(clusters+i);
+		e=0;
+		for(int j=0;j<N/2;j++){
+			l=*(etiqueta+N/2+j);
+			if(h==l){
+				e++;
+			}	
+		}
+		*(clusters+N+i)=e;
+	}
+	
+	for(int i=0;i<N;i++){
+		a=*(clusters+i);
+		b=*(clusters+N+i);
+		if(b!=0){
+			printf("%i:\t%i\n",a,b);
+		}
+	}
+}
